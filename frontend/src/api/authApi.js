@@ -5,6 +5,7 @@ export const registerUser = (data) => {
 };
 
 export const loginUser = (data) => {
+  console.log('Login++> ', data)
   return axiosInstance.post("/auth/login", data);
 };
 

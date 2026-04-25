@@ -16,13 +16,12 @@ const app = express();
 
 app.use(helmet());
 
-const allowedOrigins = [
-  process.env.CLIENT_URL,
-  "expense-tracker-one-rose-86.vercel.app",
-].filter(Boolean);
-
+// Global CORS
 app.use(
-  cors("*")
+  cors({
+    origin: true,
+    credentials: true,
+  })
 );
 
 app.use(express.json());
@@ -41,14 +40,12 @@ app.use(
   })
 );
 
-
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
     message: "Expense Tracker API is running",
   });
 });
-
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
