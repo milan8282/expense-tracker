@@ -16,8 +16,22 @@ const app = express();
 
 app.use(helmet());
 
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "expense-tracker-one-rose-86.vercel.app",
+].filter(Boolean);
+
 app.use(
-  cors("*")
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS blocked for origin: ${origin}`));
+      }
+    },
+    credentials: true,
+  })
 );
 
 app.use(express.json());
